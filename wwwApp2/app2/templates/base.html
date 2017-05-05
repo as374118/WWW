@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		{% load static %}
+		{% load pool_extras %}
+		{% block head %}
+		{% endblock %}
+		<link rel="stylesheet" type="text/css" href="/static/app2/css/style.css"/>
+		<meta http-equiv="Content-type" content="text/html" charset="utf-8" /> 
+		<title>{% block title %}{% endblock %} - Wybory django</title>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+		<script type='text/javascript' src='/static/app2/js/loadMap.js'></script>
+	</head>
+	<body>
+		<div id="header">{% block header %}{% endblock %}</div>
+		<div id="content">
+			<div id="flex-container">
+				<div id="mapClickable">
+				</div>
+				<div id="resultChart" class="chart">
+					<table>
+						{% for candidate, result in chartResult %}
+							<tr>
+								<td>{{candidate}}</td>
+								<td>{{result}}</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			<div id="{{tableId}}">
+				<table class="resultTable">
+					<tr>
+						<th>
+							{{leftColumnName}}
+						</th>
+						{% for candidate in candidates %}
+							<th>
+								{{candidate}}
+							</th>
+						{% endfor %}
+						{% if viewName == "main" %}
+							<th>
+								Wykres
+							</th>
+						{% endif %}
+					</tr>
+					{% for part, result in tableResult %}
+						<tr>
+							<td>
+								<a href='/app2/{{nextUrl}}/{{part}}'>{{part}}</a>
+							</td>
+							{% for candidate, candidateResult in result %}
+								<td>
+									{% if viewName == "borough" %}
+										<a href="/app2/vote/edit/{{part}}/{{candidate}}">
+									{% endif %}
+									{{candidateResult}}
+									{% if viewName == "borough" %}
+										</a>
+									{% endif %}
+								</td>
+							{% endfor %}
+							<td>
+								{% if viewName == "main" %}
+									<div class="horizontalChart">
+									{% for width, color, name in chartData|get_by_key:part %}
+										<div title="{{name}}" style="width:{{width}}%; height: 30px; background-color:{{color}};">
+									{% endfor %}
+									{% for width, color, name in chartData|get_by_key:part %}
+										</div>
+									{% endfor %}
+									</div>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+			{% block content %}{% endblock %}
+		</div>
+		<div id="footer">
+			{% block footer %}
+			{% endblock %}
+			<a href="/app2/main">
+				Wróć na główną
+			</a>
+			<br>
+			<br>
+			&copy; Copyright 2017 by Alex Suvorov.
+		</div>
+	</div>
+	</body>
+</html>

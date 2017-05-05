@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+		<link rel="stylesheet" type="text/css" href="{{mainFolder}}styles/style.css" />
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %} - Mój generator stron</title>
+		{% endblock %}
+	</head>
+	<body>
+		<div id="header">{% block header %}{% endblock %}</div>
+		<div id="content">
+		<div id="flex-container">
+			<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+			<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+			<script type='text/javascript'>
+				google.load('visualization', '1', {'packages': ['geochart']});
+				google.charts.load('current', {'packages':['corechart']});
+				google.setOnLoadCallback(drawMarkersMap);
+
+				function polishSlugify(text) {
+					toPolishMap = {
+						"Ą": "A",
+						"Ć": "C",
+						"Ę": "E",
+						"Ł": "L",
+						"Ń": "N",
+						"Ó": "O",
+						"Ś": "S",
+						"Ź": "Z",
+						"Ż": "Z",
+						"ą": "a",
+						"ć": "c",
+						"ę": "e",
+						"ł": "l",
+						"ń": "n",
+						"ó": "o",
+						"ś": "s",
+						"ź": "z",
+						"ż": "z",
+						"/": "-",
+						"_": "-",
+						",": "-",
+						":": "-",
+						";": "-",
+					}
+					res = text;
+					for (var key in toPolishMap) {
+						res = res.replace(new RegExp(key, 'g'), toPolishMap[key])
+					}
+					return res;
+				}
+
+				function drawMarkersMap() {
+					var data = new google.visualization.arrayToDataTable({{ dataForMap }});
+					var options = {
+						region: 'PL',
+						dataMode: 'regions',
+						displayMode: 'regions',
+						resolution: 'provinces',
+						legend: 'none',
+						enableRegionInteractivity: 'true',
+						sizeAxis: {minSize: 5,  maxSize: 5},
+						colorAxis: {colors: ['#0B2762']}
+					};
+					var chart = new google.visualization.GeoChart(document.getElementById('map'));
+					google.visualization.events.addListener(chart, 'select', function () {
+						var selection = chart.getSelection();
+						if (selection.length > 0) {
+							window.location = '{{mainFolder}}' + 'out/' + data.getValue(selection[0].row, 0) + '/index.html';
+						}
+					});
+					chart.draw(data, options);
+				}
+			</script>
+			<div id="map"></div>
+			<div id="resultChart" class="chart">
+				<table>
+					{% for candidate in candidates %}
+						<tr>
+							<td>{{candidate}}</td>
+							<td>{{resultCandidates[candidate]}}</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+			</div>
+			{% block content %}{% endblock %}
+		</div>
+		<div id="footer">
+			{% block footer %}
+			&copy; Copyright 2017 by Alex Suvorov.
+			{% endblock %}
+		</div>
+	</div>
+	</body>
+</html>

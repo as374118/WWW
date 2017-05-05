@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+		<link rel="stylesheet" type="text/css" href="../styles/style.css" />
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %} - Mój generator stron</title>
+		{% endblock %}
+	</head>
+	<body>
+		<div id="header">{% block header %}{% endblock %}</div>
+		<div id="content">{% block content %}{% endblock %}</div>
+		<div id="footer">
+			{% block footer %}
+			&copy; Copyright 2017 by Alex Suvorov.
+			{% endblock %}
+		</div>
+	</div>
+	</body>
+</html>

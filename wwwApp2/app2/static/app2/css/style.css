@@ -1,0 +1,93 @@
+body {
+	margin-bottom: 3%;
+	margin: auto;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 80%;
+}
+
+h1 {
+	text-align: center;
+	margin-bottom: 5%;
+}
+
+table, th, td {
+	width: 100%;
+	border-collapse: collapse;
+	padding: 10px;
+	border-style: none;
+	border-width: 0px;
+	margin: auto;
+	text-align: center;
+}
+
+a {
+	color: black;
+}
+
+tr:nth-child(even) {
+	background-color: #E2E6EE;
+}
+
+th, tr:hover {
+	cursor: pointer;
+	background-color: #E5F9FB;
+}
+
+#flex-container {
+	display: flex;
+	width: 80%;
+	margin-bottom: 3%;
+}
+
+#resultTableId {
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+#content {
+	margin-bottom: 35px;
+}
+
+#mapClickable {
+	flex-direction: column;
+	width: 80%;
+	flex-wrap: wrap;
+	margin: auto;
+	cursor: pointer;
+}
+
+.chart {
+	width: 40%;
+	margin-left: 5%;
+}
+
+.horizontalChart {
+	width: 300px;
+	height: 30px;
+}
+
+#footer {
+	margin: auto;
+	text-align: center
+}
+
+@media all and (max-width: 1000px) {
+	#flex-container {
+		margin: auto;
+		display: block;
+		width: 80%;
+		margin-bottom: 5%;
+	}
+
+	#content {
+		margin-bottom: 35px;
+	}
+
+	#mapClickable {
+		width: 150%;
+		height: 150%;
+		margin: auto;
+		cursor: pointer;
+		margin-bottom: 5%;
+	}
+}

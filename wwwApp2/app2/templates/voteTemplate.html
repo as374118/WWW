@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% load static %}
+		{% load pool_extras %}
+		{% block head %}
+		{% endblock %}
+		<link rel="stylesheet" type="text/css" href="/static/app2/css/style.css"/>
+		<meta http-equiv="Content-type" content="text/html" charset="utf-8" /> 
+		<title>{% block title %}{% endblock %} - Wybory django</title>
+	</head>
+	<body>
+		<div id="header">{% block header %}{% endblock %}</div>
+		<div id="content">
+			{% block content %}{% endblock %}
+			<form action="" method="post">{% csrf_token %}
+			    {{ form }}
+			    <input type="submit" value="Zapisz zmiany" />
+			</form>
+		</div>
+		<div id="footer">
+			{% block footer %}
+			{% endblock %}
+			<a href="/app2/main">
+				Wróć na główną
+			</a>
+			<br>
+			<br>
+			&copy; Copyright 2017 by Alex Suvorov.
+		</div>
+	</div>
+	</body>
+</html>
