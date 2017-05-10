@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'^region/(.+)/', views.region, name = "region"),
 	url(r'^borough/(.+)/', views.borough, name = "borough"),
 	url(r'^vote/edit/(.+)/(.+)', views.editVote, name = "voivodeship"),
+	url(r'^success/(.+)/', views.success, name = "success"),
 ]

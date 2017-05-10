@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import datetime
 from utils import *
 
@@ -78,17 +78,27 @@ def borough(request, boroughName):
 def editVote(request, borough, candidate):
 	template_name = 'voteTemplate.html'
 	instance = getVote(borough, candidate)
-	text = "<h1>Tu będzie zmiana liczby głosów</h1>"
-	text += "<p>dla głosu z gminy: " + instance.borough.name + "</p>"
-	text += "<p>dla kandydata: " + instance.candidate.name + "</p>"
-	text += "<p>z poprzednią iloscią głosów: " + str(instance.votes) + "</p>"
-	return HttpResponse(text)
-	form = VoteForm(request.POST or None, instance = instance)
-	if form.is_valid():
-		form.save()
-		redirect('success_view')
-	return render('voteTemplate.html', {'form': form.as_p})
+	if request.method == 'POST':
+		form = VoteForm(request.POST or None, instance = instance)
+		
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/app2/success/Pomyślnie zmienione głosy :)/')
+	else:
+		form = VoteForm(request.POST or None, instance = instance)
+	return render(request, 'voteTemplate.html',
+			{'form' : form, 'borough' : instance.borough.name, 'candidate' : instance.candidate.name})
+
+	# text = "<h1>Tu będzie zmiana liczby głosów</h1>" + form
+	# text += "<p>dla głosu z gminy: " + instance.borough.name + "</p>"
+	# text += "<p>dla kandydata: " + instance.candidate.name + "</p>"
+	# text += "<p>z poprzednią iloscią głosów: " + str(instance.votes) + "</p>"
+	# return HttpResponse(text)
+	# if form.is_valid():
+	# 	form.save()
+	# 	redirect('success_view')
+	return render('voteTemplate.html', {'form': form})
 
 
-def success_view(request):
-	return HttpResponse('<h1>Sukces!!!</h1>')
+def success(request, message):
+	return render(request, "resultPage.html", {'message' : message, 'type' : 'Sukces'})

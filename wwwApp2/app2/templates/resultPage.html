@@ -12,18 +12,8 @@
 	<body>
 		<div id="header">{% block header %}{% endblock %}</div>
 		<div id="content">
-			<h1>Zmiana liczby głosów</h1>
-			<h3>Gmina: {{ borough }} <br>Kandydat: {{ candidate }}</h3>
-			{% block content %}{% endblock %}
-			<div id = "voteForm">
-				<form action="" method="post">
-					{% csrf_token %}
-					{{ form }}
-					<p>
-						<input type="submit" value="Zapisz zmiany" />
-					<p>
-				</form>
-			</div>
+			<h1>{{ type }}</h1>
+			<h3 style = "text-align:center;" >{{ message }}</h3>
 		</div>
 		<div id="footer">
 			{% block footer %}
