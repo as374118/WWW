@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Strona Wyborów - REST{{title}}{% endblock %}
+{% block header %}
+<div id='searchPanel'>
+	<input id='searchInput' placeholder='Wprowadź nazwę gminy' type='text' hidden='true'>
+	<img id='searchImage' src='/static/app2/images/search.png'>
+	<a id='loginPanel' href='/admin'>Log in</a>
+</div>
+{% endblock %}
+{% block content %}
+<div id='voteForm' hidden="true">
+	<form action=' method='post'>
+		{% csrf_token %}
+		<p>
+			<label>Gmina:</label><br>
+			<input type='text' name='borough' readonly>
+		<p>
+		<p>
+			<label>Kandydat:</label><br>
+			<input type='text' name='candidate' readonly>
+		<p>
+		<p>
+			<label>Głosy:</label><br>
+			<input type='number' name='votes'>
+		<p>
+		<p>
+			<input type='button' value='Zapisz zmiany' onclick='editVotePost()'/>
+		<p>
+		</form>
+</div>
+{% endblock %}

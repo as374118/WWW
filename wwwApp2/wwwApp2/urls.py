@@ -22,4 +22,5 @@ admin.autodiscover()
 urlpatterns = [
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^app2/', include(app2.urls)),
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

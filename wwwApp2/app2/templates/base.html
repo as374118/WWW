@@ -10,11 +10,22 @@
 		<title>{% block title %}{% endblock %} - Wybory django</title>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		{% if viewName != "mainNew" %}
 		<script type='text/javascript' src='/static/app2/js/loadMap.js'></script>
+		{% endif %}
+		{% if viewName == "mainNew" %}
+		<script type='text/javascript' src='/static/app2/js/pageGenerator.js'></script>
+		<script type='text/javascript' src='/static/app2/js/loadMapApi.js'></script>
+		{% endif %}
 	</head>
 	<body>
 		<div id="header">{% block header %}{% endblock %}</div>
 		<div id="content">
+		<div id='searchResult' hidden="true">
+			<ul id='searchResultList'>
+			</ul>
+		</div>
 			<div id="flex-container">
 				<div id="mapClickable">
 				</div>
@@ -31,8 +42,9 @@
 			</div>
 			<div id="{{tableId}}">
 				<table class="resultTable">
+					{% if viewName != "mainNew" %}
 					<tr>
-						<th>
+						<th id={{viewName}}>
 							{{leftColumnName}}
 						</th>
 						{% for candidate in candidates %}
@@ -76,6 +88,7 @@
 							</td>
 						</tr>
 					{% endfor %}
+					{% endif %}
 				</table>
 			</div>
 			{% block content %}{% endblock %}
@@ -83,7 +96,7 @@
 		<div id="footer">
 			{% block footer %}
 			{% endblock %}
-			<a href="/app2/main">
+			<a id="returnToMain" href="/app2/main">
 				Wróć na główną
 			</a>
 			<br>

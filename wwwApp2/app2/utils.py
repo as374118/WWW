@@ -126,10 +126,10 @@ def createChartResultForRegion(regionName):
 	return createResultForCandidates(votesInRegion)
 
 def createTableResultForBorough(boroughName):
-	b = Borough.objects.get(name = boroughName)
-	votesInBorough = Vote.objects.filter(borough = b)
+	boroughSet = Borough.objects.filter(name = boroughName)
+	votesInBorough = Vote.objects.filter(borough__in = boroughSet)
 	boroughResult = createResultForCandidates(votesInBorough)
-	return [(b.name, boroughResult)]
+	return [(boroughName, boroughResult)]
 
 
 def createChartResultForBorough(boroughName):
@@ -144,4 +144,11 @@ def createResultForCandidates(votesForPart):
 		votesForCandidate = votesForPart.filter(candidate = c)
 		votes = votesForCandidate.aggregate(Sum('votes')).get('votes__sum')
 		res.append((c.name, votes))
+	return res
+
+def searchBorough(boroughName):
+	result = Borough.objects.filter(name__icontains = boroughName)
+	res = []
+	for b in result:
+		res.append(b.name)
 	return res
